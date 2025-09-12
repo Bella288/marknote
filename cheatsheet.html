@@ -1,1 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Cheat Sheet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin-top: 20px;
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            color: #4a69bd;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #4a69bd;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: #3c5aa8;
+        }
+        
+        .cheat-sheet {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+        }
+        
+        @media (max-width: 600px) {
+            .cheat-sheet {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: #4a69bd;
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .example {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            border: 1px solid #eaeaea;
+        }
+        
+        .preview {
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 100px;
+        }
+        
+        .preview h1, .preview h2, .preview h3 {
+            margin-top: 0;
+        }
+        
+        .preview code {
+            background: #f1f1f1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        .preview pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow: auto;
+        }
+        
+        .preview blockquote {
+            border-left: 4px solid #4a69bd;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+        }
+        
+        .preview table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        .preview table, .preview th, .preview td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        
+        .preview th {
+            background: #f8f9fa;
+        }
+        
+        .preview img {
+            max-width: 100%;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        
+        .copy-btn {
+            background: #4a69bd;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+        
+        .copy-btn:hover {
+            background: #3c5aa8;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            margin-top: 30px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease-out;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Back to Editor</a>
+    
+    <div class="container">
+        <header>
+            <h1>Markdown Cheat Sheet</h1>
+            <p class="subtitle">A complete reference guide with examples and live previews for all Markdown elements</p>
+        </header>
+        
+        <div class="cheat-sheet">
+            <!-- Headers -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-heading"></i>
+                    <h2>Headers</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example"># H1 Header
+## H2 Header
+### H3 Header
+#### H4 Header
+##### H5 Header
+###### H6 Header</div>
+                    <button class="copy-btn" data-copy="# H1 Header\n## H2 Header\n### H3 Header\n#### H4 Header\n##### H5 Header\n###### H6 Header">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <h1>H1 Header</h1>
+                        <h2>H2 Header</h2>
+                        <h3>H3 Header</h3>
+                        <h4>H4 Header</h4>
+                        <h5>H5 Header</h5>
+                        <h6>H6 Header</h6>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Text Rules -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-text-height"></i>
+                    <h2>Text Rules</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example">**Bold Text**
+*Italic Text*
+~~Strikethrough Text~~
+***Bold and Italic***</div>
+                    <button class="copy-btn" data-copy="**Bold Text**\n*Italic Text*\n~~Strikethrough Text~~\n***Bold and Italic***">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <p><strong>Bold Text</strong><br>
+                        <em>Italic Text</em><br>
+                        <del>Strikethrough Text</del><br>
+                        <strong><em>Bold and Italic</em></strong></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Links -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-link"></i>
+                    <h2>Links</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example">[OpenAI](https://www.openai.com)
+[OpenAI with title](https://www.openai.com "OpenAI Website")</div>
+                    <button class="copy-btn" data-copy="[OpenAI](https://www.openai.com)\n[OpenAI with title](https://www.openai.com \"OpenAI Website\")">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <p><a href="https://www.openai.com">OpenAI</a><br>
+                        <a href="https://www.openai.com" title="OpenAI Website">OpenAI with title</a></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Images -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-image"></i>
+                    <h2>Images</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example">![Google Logo](/public/assets/base_content/google.png)
+![Google Logo with title](/public/assets/base_content/google.png "Google Logo")</div>
+                    <button class="copy-btn" data-copy="![Google Logo](/public/assets/base_content/google.png)\n![Google Logo with title](/public/assets/base_content/google.png \"Google Logo\")">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <p>Image placeholder: Google Logo (path: /public/assets/base_content/google.png)</p>
+                        <p>Image placeholder: Google Logo with title (path: /public/assets/base_content/google.png)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quotes -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-quote-left"></i>
+                    <h2>Blockquotes</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example">> This is a blockquote.
+> It can span multiple lines.
+>
+> > And even be nested.</div>
+                    <button class="copy-btn" data-copy="> This is a blockquote.\n> It can span multiple lines.\n>\n> > And even be nested.">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <blockquote>
+                            <p>This is a blockquote.<br>
+                            It can span multiple lines.</p>
+                            <blockquote>
+                                <p>And even be nested.</p>
+                            </blockquote>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Horizontal Lines -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-minus"></i>
+                    <h2>Horizontal Lines</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example">Text above the line
 
+---
+
+Text below the line</div>
+                    <button class="copy-btn" data-copy="Text above the line\n\n---\n\nText below the line">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <p>Text above the line</p>
+                        <hr>
+                        <p>Text below the line</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Inline/Block Code -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-code"></i>
+                    <h2>Inline & Block Code</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example">Use `console.log()` for debugging.
+
+```javascript
+function helloWorld() {
+  console.log('Hello, world!');
+}
+```</div>
+                    <button class="copy-btn" data-copy="Use `console.log()` for debugging.\n\n```javascript\nfunction helloWorld() {\n  console.log('Hello, world!');\n}\n```">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <p>Use <code>console.log()</code> for debugging.</p>
+                        <pre><code class="language-javascript">function helloWorld() {
+  console.log('Hello, world!');
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tables -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    <h2>Tables</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example">| Header 1 | Header 2 | Header 3 |
+|----------|:--------:|---------:|
+| Cell 1   | Cell 2   | Cell 3   |
+| Left     | Center   | Right    |</div>
+                    <button class="copy-btn" data-copy="| Header 1 | Header 2 | Header 3 |\n|----------|:--------:|---------:|\n| Cell 1   | Cell 2   | Cell 3   |\n| Left     | Center   | Right    |">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Header 1</th>
+                                    <th style="text-align: center;">Header 2</th>
+                                    <th style="text-align: right;">Header 3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Cell 1</td>
+                                    <td style="text-align: center;">Cell 2</td>
+                                    <td style="text-align: right;">Cell 3</td>
+                                </tr>
+                                <tr>
+                                    <td>Left</td>
+                                    <td style="text-align: center;">Center</td>
+                                    <td style="text-align: right;">Right</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Line Breaks -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-arrow-right"></i>
+                    <h2>Line Breaks</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example">This is the first line.  
+This is the second line after two spaces.
+
+This is after a blank line.</div>
+                    <button class="copy-btn" data-copy="This is the first line.  \nThis is the second line after two spaces.\n\nThis is after a blank line.">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <p>This is the first line.<br>
+                        This is the second line after two spaces.</p>
+                        <p>This is after a blank line.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Comments -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-comment"></i>
+                    <h2>Comments</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example">This text is visible.
+
+<!-- This is a comment and won't be displayed -->
+
+More visible text.</div>
+                    <button class="copy-btn" data-copy="This text is visible.\n\n<!-- This is a comment and won't be displayed -->\n\nMore visible text.">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <p>This text is visible.</p>
+                        <p>More visible text.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <h2>Charts (Mermaid)</h2>
+                </div>
+                <div class="card-content">
+                    <div class="example">```mermaid
+pie title Pets adopted by volunteers
+    "Dogs" : 386
+    "Cats" : 85
+    "Rats" : 15
+```</div>
+                    <button class="copy-btn" data-copy="```mermaid\npie title Pets adopted by volunteers\n    \"Dogs\" : 386\n    \"Cats\" : 85\n    \"Rats\" : 15\n```">
+                        <i class="fas fa-copy"></i> Copy Code
+                    </button>
+                    <div class="preview">
+                        <p>Mermaid chart would be rendered here. Note: Mermaid requires additional library.</p>
+                        <div style="background: #f0f0f0; padding: 15px; border-radius: 6px; text-align: center;">
+                            <p><strong>Pie Chart Example</strong></p>
+                            <p>Dogs: 386</p>
+                            <p>Cats: 85</p>
+                            <p>Rats: 15</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Markdown Cheat Sheet &copy; 2023</p>
+    </footer>
+
+    <div class="notification" id="copy-notification">
+        Code copied to clipboard!
+    </div>
+
+    <script>
+        // Copy functionality
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const text = button.getAttribute('data-copy');
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification();
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            });
+        });
+        
+        // Show notification
+        function showNotification() {
+            const notification = document.getElementById('copy-notification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+        
+        // Simple mermaid pie chart simulation for demonstration
+        document.addEventListener('DOMContentLoaded', function() {
+            const chartContainers = document.querySelectorAll('.card:last-child .preview > div');
+            chartContainers.forEach(container => {
+                // Simulate chart with CSS
+                container.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap;">
+                        <div style="width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(
+                            #4a69bd 0% 70%, 
+                            #6a11cb 70% 85%,
+                            #2575fc 85% 100%
+                        ); margin: 10px;"></div>
+                        <div style="margin: 10px;">
+                            <p><span style="display: inline-block; width: 12px; height: 12px; background: #4a69bd; border-radius: 2px;"></span> Dogs: 386</p>
+                            <p><span style="display: inline-block; width: 12px; height: 12px; background: #6a11cb; border-radius: 2px;"></span> Cats: 85</p>
+                            <p><span style="display: inline-block; width: 12px; height: 12px; background: #2575fc; border-radius: 2px;"></span> Rats: 15</p>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
