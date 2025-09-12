@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Note-Taking App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        header {
+            background: #4a69bd;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .menu-bar {
+            background: #f8f9fa;
+            padding: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .menu-btn {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        .menu-btn:hover {
+            background: #4a69bd;
+            color: white;
+        }
+        
+        .menu-btn i {
+            font-size: 14px;
+        }
+        
+        .editor-container {
+            display: flex;
+            height: 60vh;
+        }
+        
+        @media (max-width: 768px) {
+            .editor-container {
+                flex-direction: column;
+            }
+        }
+        
+        .editor-pane, .preview-pane {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .editor-pane {
+            border-right: 1px solid #e0e0e0;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            resize: none;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 16px;
+            line-height: 1.6;
+            padding: 10px;
+            border-radius: 6px;
+            background: #f8f9fa;
+        }
+        
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #4a69bd;
+        }
+        
+        .preview-pane {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .preview-pane h1 {
+            border-bottom: 2px solid #4a69bd;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        .preview-pane h2 {
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 8px;
+            margin-top: 25px;
+        }
+        
+        .preview-pane code {
+            background: #f1f1f1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        .preview-pane pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow: auto;
+        }
+        
+        .preview-pane blockquote {
+            border-left: 4px solid #4a69bd;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+        }
+        
+        .preview-pane table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+        
+        .preview-pane table, .preview-pane th, .preview-pane td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        
+        .preview-pane th {
+            background: #f8f9fa;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            margin-top: 20px;
+        }
+        
+        .instructions {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            max-width: 1200px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .instructions h2 {
+            color: #4a69bd;
+            margin-bottom: 15px;
+        }
+        
+        .instructions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .instructions li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .instructions li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Markdown Note-Taking App</h1>
+            <p class="subtitle">Write in Markdown on the left, see the formatted result on the right</p>
+        </header>
+        
+        <div class="menu-bar">
+            <button class="menu-btn" data-insert="# "><i class="fas fa-heading"></i> H1</button>
+            <button class="menu-btn" data-insert="## "><i class="fas fa-heading"></i> H2</button>
+            <button class="menu-btn" data-insert="### "><i class="fas fa-heading"></i> H3</button>
+            <button class="menu-btn" data-insert="**Bold**"><i class="fas fa-bold"></i> Bold</button>
+            <button class="menu-btn" data-insert="*Italic*"><i class="fas fa-italic"></i> Italic</button>
+            <button class="menu-btn" data-insert="[Link](https://)"><i class="fas fa-link"></i> Link</button>
+            <button class="menu-btn" data-insert="![Image](https://)"><i class="fas fa-image"></i> Image</button>
+            <button class="menu-btn" data-insert="> "><i class="fas fa-quote-right"></i> Quote</button>
+            <button class="menu-btn" data-insert="`Code`"><i class="fas fa-code"></i> Code</button>
+            <button class="menu-btn" data-insert="```\nCode Block\n```"><i class="fas fa-square-code"></i> Code Block</button>
+            <button class="menu-btn" data-insert="- List item"><i class="fas fa-list"></i> List</button>
+            <button class="menu-btn" data-insert="1. List item"><i class="fas fa-list-ol"></i> Numbered</button>
+            <button class="menu-btn" data-insert="---"><i class="fas fa-minus"></i> Divider</button>
+        </div>
+        
+        <div class="editor-container">
+            <div class="editor-pane">
+                <textarea id="markdown-input" placeholder="Write your Markdown here..."># Welcome to Markdown Notes
+
+## This is a subheading
+
+Markdown lets you format text easily.
+
+**Bold text** and *italic text*
+
+[Visit OpenAI](https://www.openai.com)
+
+### Lists
+- Item one
+- Item two
+- Item three
+
+### Code
+`console.log('Hello World!');`
+
+### Blockquote
+> This is a blockquote
+
+### Table
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |</textarea>
+            </div>
+            <div class="preview-pane">
+                <div id="markdown-preview"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="instructions">
+        <h2>Markdown Cheat Sheet</h2>
+        <ul>
+            <li><strong>Headers:</strong> # H1, ## H2, ### H3</li>
+            <li><strong>Emphasis:</strong> *italic*, **bold**, ~~strikethrough~~</li>
+            <li><strong>List:</strong> - item 1, - item 2 or 1. item 1, 2. item 2</li>
+            <li><strong>Links:</strong> [Text](URL)</li>
+            <li><strong>Images:</strong> ![Alt text](Image URL)</li>
+            <li><strong>Code:</strong> `inline code` or ```code block```</li>
+            <li><strong>Blockquotes:</strong> > Quoted text</li>
+            <li><strong>Horizontal rule:</strong> ---</li>
+        </ul>
+    </div>
+    
+    <footer>
+        <p>Markdown Note-Taking App &copy; 2023</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // Get DOM elements
+        const markdownInput = document.getElementById('markdown-input');
+        const markdownPreview = document.getElementById('markdown-preview');
+        const menuButtons = document.querySelectorAll('.menu-btn');
+        
+        // Initialize Marked.js
+        marked.setOptions({
+            breaks: true,
+            gfm: true
+        });
+        
+        // Function to update preview
+        function updatePreview() {
+            const markdownText = markdownInput.value;
+            markdownPreview.innerHTML = marked.parse(markdownText);
+        }
+        
+        // Update preview on input
+        markdownInput.addEventListener('input', updatePreview);
+        
+        // Initial preview
+        updatePreview();
+        
+        // Add event listeners to menu buttons
+        menuButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const insertText = button.getAttribute('data-insert');
+                insertAtCursor(markdownInput, insertText);
+                updatePreview();
+            });
+        });
+        
+        // Function to insert text at cursor position
+        function insertAtCursor(textarea, text) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            // Check if we need to wrap selected text
+            if (selectedText && 
+                (text.startsWith('**') || text.startsWith('*') || text.startsWith('`') || 
+                 text.startsWith('[') || text.startsWith('!['))) {
+                
+                let wrapText, endWrapText;
+                
+                if (text.startsWith('**')) {
+                    wrapText = '**';
+                    endWrapText = '**';
+                } else if (text.startsWith('*')) {
+                    wrapText = '*';
+                    endWrapText = '*';
+                } else if (text.startsWith('`')) {
+                    wrapText = '`';
+                    endWrapText = '`';
+                } else if (text.startsWith('[')) {
+                    wrapText = '[';
+                    endWrapText = '](https://)';
+                } else if (text.startsWith('![')) {
+                    wrapText = '![';
+                    endWrapText = '](https://)';
+                }
+                
+                textarea.value = textarea.value.substring(0, start) + 
+                                wrapText + selectedText + endWrapText + 
+                                textarea.value.substring(end);
+                
+                textarea.selectionStart = start + wrapText.length;
+                textarea.selectionEnd = end + wrapText.length;
+            } else {
+                // Insert text at cursor
+                textarea.value = textarea.value.substring(0, start) + 
+                                text + 
+                                textarea.value.substring(end);
+                
+                // Move cursor to end of inserted text
+                textarea.selectionStart = start + text.length;
+                textarea.selectionEnd = start + text.length;
+            }
+            
+            // Focus back on textarea
+            textarea.focus();
+        }
+    </script>
+</body>
+</html>
